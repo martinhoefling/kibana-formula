@@ -2,6 +2,8 @@
 # vim: ft=sls
 
 {% from "kibana/map.jinja" import kibana with context %}
+include:
+  - kibana.install
 
 # We directly serialize the config subtree into the YAML file.
 kibana-config:
@@ -10,5 +12,7 @@ kibana-config:
     - mode: 644
     - user: root
     - group: root
-    - dataset: {{ kibana.config }}
+    - dataset: {{ kibana.config|json }}
     - formatter: "YAML"
+    - require:
+      - sls: kibana.install
